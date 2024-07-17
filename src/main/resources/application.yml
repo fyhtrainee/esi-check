@@ -5,7 +5,7 @@ mybatis:
 esi:
   clientId: 43767b37493e4563893e4792195db9a6
   secretKey: VY8FsPjw3lTvMxoeEos7gV01qYYBF7Z1kaO7cFCb
-  scope: publicData
+  scope: esi-wallet.read_character_wallet.v1
 #spring:
 #  security:
 #    oauth2:

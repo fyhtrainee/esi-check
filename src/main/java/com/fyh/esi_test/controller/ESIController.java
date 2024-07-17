@@ -125,7 +125,7 @@ public class ESIController {
                 .toUriString();
 
         System.out.println(uriString);
-        request.getRequestDispatcher(uriString).forward(request, response);
+        response.sendRedirect(uriString);
     }
 }
 
