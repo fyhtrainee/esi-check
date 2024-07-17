@@ -2,6 +2,9 @@ package com.fyh.esi_test.controller;
 
 import com.fyh.esi_test.config.ESIConfig;
 import jakarta.annotation.Resource;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
@@ -24,16 +28,14 @@ public class ESIController {
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state) {
 
+        System.out.println(code + state);
         return code + " : " + state;
     }
 
     @GetMapping("/esi/oauth2")
-    public String esiData() {
+    public void esiData(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "https://login.eveonline.com/v2/oauth/authorize";
-
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 7890)));
 
         String uriString = UriComponentsBuilder
                 .fromUriString(url)
@@ -43,11 +45,8 @@ public class ESIController {
                 .queryParam("scope", esiConfig.getScope())
                 .queryParam("state", "fyhyuheng")
                 .toUriString();
-        System.out.println(uriString);
-        new RestTemplate(factory).getForObject(uriString, String.class);
 
-
-        return "success";
+        request.getRequestDispatcher(uriString).forward(request,response);
     }
 }
 
