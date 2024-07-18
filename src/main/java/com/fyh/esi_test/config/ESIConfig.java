@@ -14,4 +14,6 @@ public class ESIConfig {
     private String clientId;
     private String secretKey;
     private String scope;
+    private String rasPublicKey;
 }
+
